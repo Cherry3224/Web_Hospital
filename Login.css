@@ -39,7 +39,7 @@ body{
 .brand{
   font-size:40px; 
   font-weight:700; 
-  letter-spacing:.2px; 
+  letter-spacing:0.2px; 
   text-align:center; 
   margin:8px 0 28px;
   position: relative;
@@ -90,8 +90,11 @@ body{
 .panel h2{margin:0 0 6px; font-size:22px}
 .panel p{margin:0 0 4px; color:var(--muted); font-size:14px}
 
-form{padding:18px 24px 24px; display:grid; gap:14px}
-.input{position:relative}
+form{padding:18px 24px 24px; display:grid; gap:8px}
+.input{
+  position:relative;
+  margin-bottom: 16px;
+}
 
 .input input{
   width:100%; 
@@ -132,6 +135,12 @@ form{padding:18px 24px 24px; display:grid; gap:14px}
   margin-top: 4px;
   margin-left: 44px;
   animation: slideIn 0.3s ease;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: transparent;
+  z-index: 3;
 }
 
 @keyframes slideIn {
@@ -154,12 +163,15 @@ form{padding:18px 24px 24px; display:grid; gap:14px}
   transition: var(--transition);
 }
 
-.input .trail{
+.input .icon_eye{
   position:absolute; 
   right:10px; 
-  top:50%; 
-  transform:translateY(-50%); 
-  color:var(--icon)
+  top:14px;
+  bottom:14px;
+  display:flex;
+  align-items:center;
+  color:var(--icon);
+  z-index:2;
 }
 
 .icon{width:20px; height:20px; display:inline-block}
@@ -357,19 +369,42 @@ form{padding:18px 24px 24px; display:grid; gap:14px}
   margin:0 auto;
 }
 
+.lang {
+  position: relative;
+}
+
 .lang select{
   appearance:none; 
   background:var(--bg1); 
   color:var(--text); 
   border:1px solid var(--border); 
   border-radius:999px; 
-  padding:10px 12px;
+  padding:10px 32px 10px 12px; /* Tăng padding bên phải để có chỗ cho mũi tên */
   cursor: pointer;
   transition: var(--transition);
 }
 
-.lang select:hover {
-  border-color: var(--btn);
+/* Thêm mũi tên hướng lên */
+.lang::after {
+  content: '';
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid var(--icon); /* Mũi tên hướng lên */
+  pointer-events: none;
+  transition: var(--transition);
+}
+
+.lang select:hover {border-color: var(--btn);}
+
+/* Thay đổi màu mũi tên khi hover */
+.lang:hover::after {
+  border-bottom-color: var(--btn);
 }
 
 .lang select:focus {
@@ -406,10 +441,14 @@ form{padding:18px 24px 24px; display:grid; gap:14px}
     width: 100%;
   }
   
+
+  
   .brand {
     font-size: 32px;
     margin-bottom: 20px;
   }
+  
+
   
   .panel header {
     padding: 18px 20px 0;

@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>R.F Hospital - Hệ thống Quản lý Bệnh viện</title>
+  <link rel="stylesheet" href="dashboard.css">
+  <script src="dashboard.js" defer></script>
+  <link rel="icon" type="image/x-icon" href="Chiikawa.png">
+  
+  <!-- Chart.js for statistics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <img src="Chiikawa.png" alt="Chiikawa" class="logo-image">
+          <span>R.F Hospital</span>
+        </div>
+        <button class="sidebar-toggle" id="sidebarToggle">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="#" class="nav-link active" data-page="dashboard">
+              <i class="fas fa-home"></i>
+              <span>Trang chủ</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link" data-page="schedule">
+              <i class="fas fa-calendar-alt"></i>
+              <span>Lịch Làm Việc</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link" data-page="patients">
+              <i class="fas fa-users"></i>
+              <span>Bệnh Nhân</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link" data-page="medical-records">
+              <i class="fas fa-file-medical"></i>
+              <span>Bệnh Án</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link" data-page="medicines">
+              <i class="fas fa-pills"></i>
+              <span>Thuốc</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link" data-page="diagnostics">
+              <i class="fas fa-x-ray"></i>
+              <span>Chuẩn đoán / Xét nghiệm</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link" data-page="articles">
+              <i class="fas fa-newspaper"></i>
+              <span>Bài Viết</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link" data-page="statistics">
+              <i class="fas fa-chart-bar"></i>
+              <span>Thống Kê</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link" data-page="accounts">
+              <i class="fas fa-user-cog"></i>
+              <span>Tài Khoản</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <div class="user-avatar">
+            <i class="fas fa-user-md"></i>
+          </div>
+          <div class="user-details">
+            <span class="user-name">BS. Nguyễn Văn A</span>
+            <span class="user-role">Bác sĩ trưởng</span>
+          </div>
+        </div>
+        <button class="logout-btn" onclick="logout()">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Đăng xuất</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Top Header -->
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <i class="fas fa-bars"></i>
+          </button>
+          <h1 class="page-title" id="pageTitle">Trang chủ</h1>
+        </div>
+        
+        <div class="header-right">
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Tìm kiếm..." id="globalSearch">
+          </div>
+          
+          <div class="header-actions">
+            <button class="notification-btn" id="notificationBtn">
+              <i class="fas fa-bell"></i>
+              <span class="notification-badge">3</span>
+            </button>
+            
+            <div class="language-selector">
+              <select id="languageSelect">
+                <option value="vi-vn">Tiếng Việt</option>
+                <option value="en-us">English</option>
+                <option value="zh-cn">中文</option>
+              </select>
+            </div>
+            
+            <button class="theme-toggle" id="themeToggle">
+              <i class="fas fa-moon"></i>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <div class="page-content" id="pageContent">
+        <!-- Dashboard Home Page -->
+        <div class="page-section active" id="dashboard-page">
+          <div class="dashboard-stats">
+            <div class="stat-card">
+              <div class="stat-icon patients">
+                <i class="fas fa-users"></i>
+              </div>
+              <div class="stat-info">
+                <h3>1,245</h3>
+                <p>Tổng Bệnh Nhân</p>
+                <span class="stat-change positive">+12%</span>
+              </div>
+            </div>
+            
+            <div class="stat-card">
+              <div class="stat-icon appointments">
+                <i class="fas fa-calendar-check"></i>
+              </div>
+              <div class="stat-info">
+                <h3>89</h3>
+                <p>Lịch Hẹn Hôm Nay</p>
+                <span class="stat-change positive">+5%</span>
+              </div>
+            </div>
+            
+            <div class="stat-card">
+              <div class="stat-icon revenue">
+                <i class="fas fa-dollar-sign"></i>
+              </div>
+              <div class="stat-info">
+                <h3>2.4M</h3>
+                <p>Doanh Thu Tháng</p>
+                <span class="stat-change negative">-3%</span>
+              </div>
+            </div>
+            
+            <div class="stat-card">
+              <div class="stat-icon doctors">
+                <i class="fas fa-user-md"></i>
+              </div>
+              <div class="stat-info">
+                <h3>48</h3>
+                <p>Bác Sĩ Hoạt Động</p>
+                <span class="stat-change positive">+2</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="dashboard-grid">
+            <div class="dashboard-card recent-patients">
+              <div class="card-header">
+                <h3>Bệnh Nhân Gần Đây</h3>
+                <button class="view-all-btn">Xem tất cả</button>
+              </div>
+              <div class="card-content">
+                <div class="patient-list">
+                  <div class="patient-item">
+                    <div class="patient-avatar">
+                      <i class="fas fa-user"></i>
+                    </div>
+                    <div class="patient-info">
+                      <h4>Nguyễn Thị B</h4>
+                      <p>Khám tim mạch - 14:30</p>
+                    </div>
+                    <div class="patient-status urgent">Khẩn cấp</div>
+                  </div>
+                  
+                  <div class="patient-item">
+                    <div class="patient-avatar">
+                      <i class="fas fa-user"></i>
+                    </div>
+                    <div class="patient-info">
+                      <h4>Trần Văn C</h4>
+                      <p>Khám tổng quát - 15:00</p>
+                    </div>
+                    <div class="patient-status normal">Bình thường</div>
+                  </div>
+                  
+                  <div class="patient-item">
+                    <div class="patient-avatar">
+                      <i class="fas fa-user"></i>
+                    </div>
+                    <div class="patient-info">
+                      <h4>Lê Thị D</h4>
+                      <p>Tái khám - 15:30</p>
+                    </div>
+                    <div class="patient-status follow-up">Tái khám</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="dashboard-card appointment-calendar">
+              <div class="card-header">
+                <h3>Lịch Hẹn Hôm Nay</h3>
+                <button class="add-appointment-btn">
+                  <i class="fas fa-plus"></i> Thêm lịch hẹn
+                </button>
+              </div>
+              <div class="card-content">
+                <div class="calendar-view">
+                  <div class="time-slot">
+                    <span class="time">09:00</span>
+                    <div class="appointment">
+                      <h4>Khám tổng quát</h4>
+                      <p>Nguyễn Văn E</p>
+                    </div>
+                  </div>
+                  
+                  <div class="time-slot">
+                    <span class="time">10:30</span>
+                    <div class="appointment">
+                      <h4>Siêu âm thai</h4>
+                      <p>Trần Thị F</p>
+                    </div>
+                  </div>
+                  
+                  <div class="time-slot">
+                    <span class="time">14:00</span>
+                    <div class="appointment urgent">
+                      <h4>Khám cấp cứu</h4>
+                      <p>Lê Văn G</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="dashboard-card quick-stats">
+              <div class="card-header">
+                <h3>Thống Kê Nhanh</h3>
+              </div>
+              <div class="card-content">
+                <canvas id="quickStatsChart"></canvas>
+              </div>
+            </div>
+
+            <div class="dashboard-card recent-activities">
+              <div class="card-header">
+                <h3>Hoạt Động Gần Đây</h3>
+              </div>
+              <div class="card-content">
+                <div class="activity-list">
+                  <div class="activity-item">
+                    <div class="activity-icon">
+                      <i class="fas fa-user-plus"></i>
+                    </div>
+                    <div class="activity-info">
+                      <p>Bệnh nhân mới đăng ký</p>
+                      <span class="activity-time">2 phút trước</span>
+                    </div>
+                  </div>
+                  
+                  <div class="activity-item">
+                    <div class="activity-icon">
+                      <i class="fas fa-prescription"></i>
+                    </div>
+                    <div class="activity-info">
+                      <p>Đơn thuốc mới được tạo</p>
+                      <span class="activity-time">5 phút trước</span>
+                    </div>
+                  </div>
+                  
+                  <div class="activity-item">
+                    <div class="activity-icon">
+                      <i class="fas fa-file-medical"></i>
+                    </div>
+                    <div class="activity-info">
+                      <p>Bệnh án được cập nhật</p>
+                      <span class="activity-time">10 phút trước</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Company Articles Section -->
+          <div class="company-articles-section">
+            <div class="section-header">
+              <h2>Bài Viết Công Ty</h2>
+              <button class="btn-primary" id="newArticleBtn">
+                <i class="fas fa-plus"></i> Đăng bài viết
+              </button>
+            </div>
+            
+            <div class="articles-feed">
+              <div class="article-post">
+                <div class="post-header">
+                  <div class="author-info">
+                    <div class="author-avatar">
+                      <i class="fas fa-user-md"></i>
+                    </div>
+                    <div class="author-details">
+                      <h4>BS. Nguyễn Văn A</h4>
+                      <span class="post-time">2 giờ trước</span>
+                    </div>
+                  </div>
+                  <div class="post-actions">
+                    <button class="action-btn">
+                      <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                  </div>
+                </div>
+                
+                <div class="post-content">
+                  <h3>Cập nhật quy trình khám bệnh mới</h3>
+                  <p>Chúng ta sẽ áp dụng quy trình khám bệnh mới từ ngày mai. Tất cả các bác sĩ và y tá vui lòng tham gia buổi tập huấn vào 14:00 chiều nay tại hội trường chính.</p>
+                  <div class="post-image">
+                    <img src="Chiikawa.png" alt="Quy trình mới" style="width: 100%; border-radius: 0.5rem;">
+                  </div>
+                </div>
+                
+                <div class="post-stats">
+                  <span class="stat-item">
+                    <i class="fas fa-heart"></i> 12 lượt thích
+                  </span>
+                  <span class="stat-item">
+                    <i class="fas fa-comment"></i> 5 bình luận
+                  </span>
+                </div>
+                
+                <div class="post-actions-bar">
+                  <button class="action-btn like-btn">
+                    <i class="fas fa-heart"></i> Thích
+                  </button>
+                  <button class="action-btn comment-btn">
+                    <i class="fas fa-comment"></i> Bình luận
+                  </button>
+                  <button class="action-btn share-btn">
+                    <i class="fas fa-share"></i> Chia sẻ
+                  </button>
+                </div>
+                
+                <div class="comments-section">
+                  <div class="comment">
+                    <div class="comment-avatar">
+                      <i class="fas fa-user-nurse"></i>
+                    </div>
+                    <div class="comment-content">
+                      <div class="comment-header">
+                        <strong>Y tá Trần Thị B</strong>
+                        <span class="comment-time">1 giờ trước</span>
+                      </div>
+                      <p>Cảm ơn thông tin. Tôi sẽ tham gia buổi tập huấn đúng giờ.</p>
+                    </div>
+                  </div>
+                  
+                  <div class="comment">
+                    <div class="comment-avatar">
+                      <i class="fas fa-user-md"></i>
+                    </div>
+                    <div class="comment-content">
+                      <div class="comment-header">
+                        <strong>BS. Lê Văn C</strong>
+                        <span class="comment-time">30 phút trước</span>
+                      </div>
+                      <p>Quy trình này có gì khác so với quy trình cũ không? Có tài liệu tham khảo không?</p>
+                    </div>
+                  </div>
+                  
+                  <div class="add-comment">
+                    <div class="user-avatar">
+                      <i class="fas fa-user-md"></i>
+                    </div>
+                    <div class="comment-input-container">
+                      <textarea placeholder="Viết bình luận..." class="comment-input"></textarea>
+                      <div class="comment-actions">
+                        <button class="btn-sm post-comment-btn">Đăng</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="article-post">
+                <div class="post-header">
+                  <div class="author-info">
+                    <div class="author-avatar">
+                      <i class="fas fa-user-cog"></i>
+                    </div>
+                    <div class="author-details">
+                      <h4>Admin Phạm Thị D</h4>
+                      <span class="post-time">1 ngày trước</span>
+                    </div>
+                  </div>
+                  <div class="post-actions">
+                    <button class="action-btn">
+                      <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                  </div>
+                </div>
+                
+                <div class="post-content">
+                  <h3>Thông báo nghỉ lễ 30/4 - 1/5</h3>
+                  <p>Bệnh viện sẽ nghỉ lễ từ ngày 30/4 đến 1/5. Chỉ duy trì ca cấp cứu và các ca phẫu thuật khẩn cấp. Các lịch hẹn khám thường quy sẽ được dời sang tuần sau.</p>
+                </div>
+                
+                <div class="post-stats">
+                  <span class="stat-item">
+                    <i class="fas fa-heart"></i> 8 lượt thích
+                  </span>
+                  <span class="stat-item">
+                    <i class="fas fa-comment"></i> 3 bình luận
+                  </span>
+                </div>
+                
+                <div class="post-actions-bar">
+                  <button class="action-btn like-btn">
+                    <i class="fas fa-heart"></i> Thích
+                  </button>
+                  <button class="action-btn comment-btn">
+                    <i class="fas fa-comment"></i> Bình luận
+                  </button>
+                  <button class="action-btn share-btn">
+                    <i class="fas fa-share"></i> Chia sẻ
+                  </button>
+                </div>
+                
+                <div class="comments-section">
+                  <div class="comment">
+                    <div class="comment-avatar">
+                      <i class="fas fa-user-md"></i>
+                    </div>
+                    <div class="comment-content">
+                      <div class="comment-header">
+                        <strong>BS. Hoàng Văn E</strong>
+                        <span class="comment-time">12 giờ trước</span>
+                      </div>
+                      <p>Đã nắm được thông tin. Tôi sẽ sắp xếp lịch ca cấp cứu.</p>
+                    </div>
+                  </div>
+                  
+                  <div class="add-comment">
+                    <div class="user-avatar">
+                      <i class="fas fa-user-md"></i>
+                    </div>
+                    <div class="comment-input-container">
+                      <textarea placeholder="Viết bình luận..." class="comment-input"></textarea>
+                      <div class="comment-actions">
+                        <button class="btn-sm post-comment-btn">Đăng</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+
+        <!-- Other pages will be loaded dynamically -->
+        <div class="page-section" id="schedule-page">
+          <!-- Schedule content will be loaded here -->
+        </div>
+
+        <div class="page-section" id="patients-page">
+          <!-- Patients content will be loaded here -->
+        </div>
+
+        <div class="page-section" id="medical-records-page">
+          <!-- Medical records content will be loaded here -->
+        </div>
+
+        <div class="page-section" id="medicines-page">
+          <!-- Medicines content will be loaded here -->
+        </div>
+
+        <div class="page-section" id="diagnostics-page">
+          <!-- Diagnostics content will be loaded here -->
+        </div>
+
+        <div class="page-section" id="articles-page">
+          <!-- Articles content will be loaded here -->
+        </div>
+
+        <div class="page-section" id="statistics-page">
+          <!-- Statistics content will be loaded here -->
+        </div>
+
+        <div class="page-section" id="accounts-page">
+          <!-- Accounts content will be loaded here -->
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Notification Panel -->
+  <div class="notification-panel" id="notificationPanel">
+    <div class="notification-header">
+      <h3>Thông báo</h3>
+      <button class="close-notifications">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="notification-list">
+      <div class="notification-item unread">
+        <div class="notification-icon">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <div class="notification-content">
+          <h4>Bệnh nhân cần chăm sóc khẩn cấp</h4>
+          <p>Phòng 302 - Nguyễn Văn X</p>
+          <span class="notification-time">5 phút trước</span>
+        </div>
+      </div>
+      
+      <div class="notification-item">
+        <div class="notification-icon">
+          <i class="fas fa-calendar"></i>
+        </div>
+        <div class="notification-content">
+          <h4>Lịch hẹn mới</h4>
+          <p>Khám tổng quát - 16:00</p>
+          <span class="notification-time">10 phút trước</span>
+        </div>
+      </div>
+      
+      <div class="notification-item">
+        <div class="notification-icon">
+          <i class="fas fa-pills"></i>
+        </div>
+        <div class="notification-content">
+          <h4>Thuốc sắp hết hạn</h4>
+          <p>Kiểm tra kho thuốc</p>
+          <span class="notification-time">1 giờ trước</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-spinner">
+      <i class="fas fa-heartbeat"></i>
+      <p>Đang tải...</p>
+    </div>
+  </div>
+</body>
+</html>

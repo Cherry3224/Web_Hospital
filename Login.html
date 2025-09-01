@@ -3,68 +3,43 @@
 <head>
   <meta charset="utf-8" />
   <!--Kiểm soát hiện thị trang web trên di động-->
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name = "viewport" content="width=device-width, initial-scale=1" />
   <title>Đăng nhập • R.F Hospital</title>
   <!--CSS -->
   <link rel="stylesheet" href="Login.css">
   <!--JavaScript -->
   <script src="Login.js" defer></script>
-
   <link rel="icon" type="image/x-icon" href="Chiikawa.png">
-  
-  <!-- Meta tags for better SEO and social sharing -->
-  <meta name="description" content="Đăng nhập vào hệ thống quản lý bệnh viện R.F Hospital">
-  <meta name="keywords" content="bệnh viện, đăng nhập, R.F Hospital, y tế">
-  <meta name="author" content="R.F Hospital">
-  
-  <!-- Open Graph tags -->
-  <meta property="og:title" content="Đăng nhập • R.F Hospital">
-  <meta property="og:description" content="Đăng nhập vào hệ thống quản lý bệnh viện R.F Hospital">
-  <meta property="og:type" content="website">
-  
-  <!-- Preload critical resources -->
+  <!--Tải Trước Tài Nguyên -->
   <link rel="preload" href="Login.css" as="style">
   <link rel="preload" href="Login.js" as="script">
 </head>
 <body>
-  <main class="wrap" role="main">
-    <h1 class="brand">R.F Hospital</h1>
-    
-    <section class="panel" role="region" aria-labelledby="login-title">
+  <main class = "wrap">
+    <h1 class = "brand"> R.F Hospital</h1>
+    <section class="panel"> <!--Khung viền phần Đăng Nhập-->
       <header>
-        <h2 id="login-title">Sign in</h2>
-        <p>Enter your credentials to access your account</p>
+        <h2 id="login-title" data-translate="title">Đăng nhập</h2> <!--Gán ID cho Sigin && titile cho JS translate-->
+        <p data-translate="subtitle">Nhập Email và Mật Khẩu</p> <!-- Gán subtitle cho JS translate-->
       </header>
-      
-      <form id="loginForm" novalidate aria-describedby="form-instructions">
-        <div id="form-instructions" class="sr-only">
-          Please fill in all required fields. Email must be valid and password must be at least 6 characters long.
-        </div>
-        
-        <div class="input">
-          <span class="ico" aria-hidden="true">
-            <!-- mail icon -->
+      <form id="loginForm" novalidate> <!--Ngăn trình duyệt kiểm tra hợp lệ-->
+        <div class="input"> <!--Trường nhập Emai-->
+          <span class="ico"> <!-- mail icon -->
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
               <path d="M3 7l9 6 9-6"/>
               <rect x="3" y="5" width="18" height="14" rx="3"/>
             </svg>
           </span>
           <input 
-            type="email" 
-            id="email" 
-            name="email"
-            placeholder="Email address" 
-            autocomplete="username" 
-            required 
-            aria-required="true"
-            aria-describedby="email-error"
-          />
-          <div id="email-error" class="sr-only" role="alert"></div>
+            type = "email" 
+            id = "email" 
+            name = "email"
+            placeholder = "Email@gmail.com" 
+            autocomplete="email" 
+            required/>
         </div>
-
         <div class="input">
-          <span class="ico" aria-hidden="true">
-            <!-- lock icon -->
+          <span class="ico"> <!-- lock icon -->
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
               <rect x="4" y="10" width="16" height="10" rx="3"/>
               <path d="M8 10V7a4 4 0 118 0v3"/>
@@ -75,78 +50,48 @@
             id="password" 
             name="password"
             placeholder="Password" 
+            data-translate-placeholder="passwordPlaceholder"
             autocomplete="current-password" 
             required 
-            aria-required="true"
-            aria-describedby="password-error"
-            minlength="6"
-          />
-          <span class="trail">
+            minlength="6"/>
+          <span class="icon_eye">
             <button 
               class="eye" 
               type="button" 
-              id="togglePw" 
-              aria-label="Hiện/ẩn mật khẩu"
-              aria-pressed="false"
-            >
+              id="togglePw">
               <svg class="icon" id="eyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
                 <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/>
                 <circle cx="12" cy="12" r="3"/>
               </svg>
             </button>
           </span>
-          <div id="password-error" class="sr-only" role="alert"></div>
         </div>
-
         <div class="row">
-          <label for="remember">
-            <input type="checkbox" id="remember" name="remember"/>
-            <span>Keep me signed in</span>
-          </label>
-          <a href="#" aria-label="Forgot password? Click to reset your password">Forgot password?</a>
+          <a href="#" data-translate="forgotPassword">Forgot password?</a>
         </div>
-
-        <button class="btn" type="submit" aria-describedby="submit-instructions">
+        <button class="btn" type="submit" data-translate="signIn">
           Sign in
         </button>
-        <div id="submit-instructions" class="sr-only">
-          Press Enter or click this button to submit the form
-        </div>
       </form>
     </section>
   </main>
-
-  <footer class="site-footer" role="contentinfo" aria-label="Footer">
+  <footer class="site-footer">
     <div class="footer-wrap">
       <div class="lang">
-        <label for="language-select" class="sr-only">Select language</label>
-        <select id="language-select" aria-label="Language selection">
+        <select id="language-select">
+          <option value="vi-vn" selected>Tiếng Việt</option>
+          <option value="zh-cn">中文 (中国)</option>
           <option value="en-gb">English (United Kingdom)</option>
           <option value="en-us">English (United States)</option>
-          <option value="vi-vn">Tiếng Việt (Việt Nam)</option>
+          <option value="de-de">Deutsch (Deutschland)</option>
         </select>
       </div>
-      <nav class="links" aria-label="Legal links">
-        <a href="#" aria-label="Help and support">Help</a>
-        <a href="#" aria-label="Privacy policy">Privacy</a>
-        <a href="#" aria-label="Terms of service">Terms</a>
+      <nav class="links">
+        <a href="#" data-translate="help">Help</a>
+        <a href="#" data-translate="privacy">Privacy</a>
+        <a href="#" data-translate="terms">Terms</a>
       </nav>
     </div>
   </footer>
-
-  <!-- Screen reader only content -->
-  <style>
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
-    }
-  </style>
 </body>
 </html>
